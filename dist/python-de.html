@@ -48,7 +48,6 @@ Marko Knöbl
   - React, Angular
 - Programmierung
   - Python, JavaScript
-- E-Mail: marko.kn@gmail.com
 
 ---
 
@@ -70,48 +69,6 @@ Marko Knöbl
 - Mittagessen
 - Unterlagen
 - Fragen, Feedback? - Jederzeit erwünscht
-
----
-# Schulungsinhalte - Grundlagen (ca 2 Tage)
-
-- Geschichte von Python, Entwicklungsprozess, Anwendungsgebiete
-- Vergleich mit anderen Programmiersprachen und Besonderheiten von Python
-- Installation und Einrichtung
-- Grundlegende Syntax
-- Grundlegende Datentypen: str, int, float, bool
-- Kontrollstrukturen
-- Funktionen
-- Codequalität und Linting
-- Listen, Tupel, Dictionaries
-- Strings und reguläre Ausdrücke
-- Input / Output, Arbeiten mit Dateien
-- Klassen und Objekte
-- Exceptions
-
----
-
-# Schulungsinhalte - Vertiefung (ca 3 Tage)
-
-- Module und Pakete
-- Netzwerk und Internet: FTP, email, HTTP, APIs
-- Dateisystem und Dateien
-- Logging und Testing
-- Static Typing
-- Iterators & Comprehensions
-- Funktionen - Vertiefung
-  - Lambdas
-  - Decorators
-  - Functools
-- Objektorientierung - Vertiefung
-  - "public" & "private"
-  - magic methods
-  - Properties (getters & setters)
-  - staticmethod & classmethod
-  - Vererbungsreihenfolge
-- Web-Programmierung (wsgi)
-- Die Module os und sys
-- Parallelisierung (threading & multiprocessing)
-- Datenbankanbindung: Beispiel sqlite
 
 ---
 class: center, middle
@@ -187,14 +144,28 @@ https://code.visualstudio.com/docs/languages/python
 
 ---
 
+# VS Code - Setup für Python
+
+Datei - Einstellungen - Einstellungen
+
+Empfehlungen:
+
+- `python.linting.pylintEnabled`: `true`
+- `python.linting.pylintUseMinimalCheckers`: meist auf `true` - oder eigene Konfiguration
+- `python.linting.pydocstyleEnabled`: Für strikte Richtlinien bezüglich docstrings
+- `python.formatting.provider`: `black`
+- `python.linting.flake8Enabled`: für Formatierungsüberprüfung auf `true`
+
+---
+
 # VS Code - Befehle und Einrichtung
 
 - automatisches Speichern
-- Einstellungen: Konfigurationsdatei
 - Tastenkürzel:
   - Terminal: Ctrl + Ö
   - Umbenennen: F2
   - Mehrere Cursor: Alt + Klick
+  - Automatische Formatierung: Alt + Shift + F
 
 ---
 class: center, middle
@@ -424,8 +395,8 @@ b = False
 
 # Zahlen
 
-- int: beliebig große Ganzzahlen
-- float: 64-bit Gleitkommazahlen
+- `int`: beliebig große Ganzzahlen
+- `float`: 64-bit Gleitkommazahlen
 
 ---
 
@@ -488,15 +459,68 @@ class: center, middle
 
 ---
 
-# Kontrollstrukturen
+# if
 
-siehe Buch Kapitel 5
+```py
+if a < 10:
+    print("small")
+elif a < 100:
+    print("medium")
+else:
+    print("large")
+```
 
 ---
-- ISBN
-- IBAN
-- todo-liste
-- babylonisches Wurzelziehen
+
+# for
+
+```py
+names = ['Andy', 'Bob', 'Claire']
+
+for name in names:
+    print(name)
+```
+
+Bezeichnung in anderen Sprachen: `foreach`
+
+---
+
+# for
+
+Zählen mit `range()`
+
+```py
+for i in range(10):
+    print(i)
+
+# 0 1 2 3 4 5 6 7 8 9
+```
+
+`range(10)` erstellt eine Folge von 10 Zahlen, beginnend mit 0
+
+---
+
+# while
+
+```py
+a = 10
+while a > 1:
+    a = a / 2
+```
+
+---
+class: center, middle
+
+# cheat sheet
+
+https://ehmatthes.github.io/pcc/cheatsheets/README.html
+
+---
+class: center, middle
+
+# Beispiele
+
+---
 
 # Beispiel: Babylonisches Wurzelziehen
 
@@ -760,10 +784,6 @@ b = 0o52
 c = 0x2a
 ```
 
----
-
-# int
-
 ```py
 a = int('10010', 2)
 ```
@@ -772,7 +792,7 @@ a = int('10010', 2)
 
 # float
 
-```
+```py
 a = 2.3
 b = .2
 c = 6e23
@@ -788,7 +808,7 @@ Anekdote: `d != d`
 
 # complex
 
-```
+```py
 a = 2 + 3j
 ```
 
@@ -897,7 +917,7 @@ Zugriff auf mehrere Elemente
 ```py
 users = ['mike', 'tim', 'theresa']
 
-users[0:2] # 'mike', 'tim'
+users[0:2] # ['mike', 'tim']
 ```
 
 ---
@@ -998,8 +1018,12 @@ for i, name in enumerate(l):
 
 = Sequenz von Zahlen zwischen 0 und 255
 
-```
+```py
 m = bytes([104, 101, 108, 108, 111])
+
+# oder:
+
+m = b"hello"
 ```
 
 ---
@@ -1547,7 +1571,7 @@ uppercase_names = [name.upper() for name in names]
 ```py
 amounts = [10, -7, 8, 19, -2]
 
-negative_amounts = [amount if amount > 0 for amount in amounts]
+negative_amounts = [amount for amount in amounts if amount < 0]
 ```
 
 ---
@@ -1558,7 +1582,8 @@ Allgemeine Syntax:
 
 ```py
 new_list = [new_entry for entry in old_list]
-new_list = [new_entry if condition for entry in old_list]
+
+new_list = [new_entry for entry in old_list if condition]
 ```
 
 ---
@@ -1897,7 +1922,8 @@ class MyClass():
 
     # die Methode __init__ initialisiert das Objekt
     def __init__(self):
-        # self bezieht sich in jeder Methode auf die aktuelle Instanz
+        # self bezieht sich in jeder Methode
+        # auf die aktuelle Instanz
         self.message = "hello"
 
 instance = MyClass()
@@ -2044,7 +2070,7 @@ class: center, middle
 # Module und Pakete
 
 - Modul = Python-Datei, aus der Objekte importiert werden können
-- Paket = Verzeichnis, in dem Python-Dateien abgelegt sind (inklusive `__init__.py`)
+- Paket = Verzeichnis, in dem Python-Module abgelegt sind (Bis Python 3.3: benötigt `__init__.py` im Verzeichnis)
 
 ---
 
@@ -2059,6 +2085,14 @@ from package1.module2 import myobject
 
 from package1.module2 import *
 ```
+
+---
+
+# Beispiele für imports: urllib
+
+- `urllib` = Paket
+- `urllib.request` = Modul
+- `urllib.request.urlopen` = Funktion
 
 ---
 
@@ -2084,14 +2118,18 @@ class: center, middle
 Möglichkeiten:
 
 - Speichern in Text-Datei
-- Speichern von Binärdaten mittels pickle (und shelve)
-- Speichern von Binärdaten in eigenem Format
-- Speichern als XML
 - Speichern als JSON
+- Speichern von Python-Objekten mittels pickle (und shelve)
+- Speichern als XML
+- Speichern von Binärdaten in eigenem Format
 
 ---
 
-# Speichern von JSON-Daten
+# JSON
+
+---
+
+# JSON speichern
 
 - Daten in JSON-String verwandeln
 - JSON-String durch verwenden eines Encodings in eine Reihe von Bytes verwandeln
@@ -2099,10 +2137,129 @@ Möglichkeiten:
 
 ---
 
-# Übungen
+# JSON speichern
 
-- Vokabeltrainer mit Speicherfunktion (Buch 8.4)
-- Buch 9.7.1 (Marathonzeiten)
+```py
+import json
+
+data = ["one", "two", "three"]
+jsonstring = json.dumps(data)
+
+with open("numbers.json", encoding="utf-8") as jsonfile:
+    jsonfile.write(jsonstring)
+```
+
+---
+
+# JSON lesen
+
+```py
+import json
+
+with open("numbers.json", encoding="utf-8") as jsonfile:
+    jsonstring = jsonfile.read()
+data = json.loads(jsonstring)
+```
+
+---
+
+# Pickle
+
+Eigenes Dateiformat, in dem verschiedene Python-Dateitypen gespeichert werden können
+
+---
+
+# Pickle
+
+```py
+import pickle
+import datetime
+
+now = datetime.datetime.now()
+
+serialized = pickle.dumps()
+
+with open("datetime.pickle", mode="wb") as picklefile:
+    picklefile.write(serialized)
+```
+
+---
+
+# Pickle
+
+```py
+import pickle
+
+with open("datetime.pickle", mode="rb") as picklefile:
+    serialized = picklefile.read()
+earlier = pickle.reads(serialized)
+```
+
+---
+
+# XML
+
+zwei Pakete in der Python-Standardlibrary:
+
+- `xml.etree.ElementTree`
+- `xml.dom.minidom`
+
+externe Library (Erweiterung von ElementTree):
+
+- `lxml`
+
+---
+
+# XML mit ElementTree: erstellen
+
+```py
+import xml.etree.ElementTree as et
+
+person = et.Element('person')
+name = et.SubElement(person, 'name')
+name.text = 'Adam'
+age = et.SubElement(person, 'age')
+age.text = '40'
+age.set("unit", "years")
+```
+
+---
+
+# XML mit ElementTree: speichern
+
+```py
+xmlbytestring: bytes = et.tostring(person, encoding='utf-8')
+with open("myfile.xml", mode="wb") as file:
+    file.write(xmlbytestring)
+
+# oder
+xmlstring: str = et.tostring(person, encoding='unicode')
+with open("myfile.xml", encoding="utf-8", mode="w") as file:
+    file.write(xmlstring)
+
+# oder
+tree = et.ElementTree(person)
+tree.write("myfile.xml", encoding="utf-8")
+```
+
+---
+
+# XML mit ElementTree: lesen
+
+```py
+import xml.etree.ElementTree as et
+
+person = et.fromstring(xmlstring)
+for childnode in person:
+    print(childnode.tag)
+    print(childnode.text)
+    print(childnode.attrib)
+```
+
+---
+
+# Übung
+
 - Speichern und Lesen eines Tic-Tac-Toe-Feldes in verschiedenen Formaten
 
 Python-Datenstruktur:
@@ -2144,20 +2301,42 @@ zwei Pakete in der Python-Standardlibrary:
 - `xml.etree.ElementTree`
 - `xml.dom.minidom`
 
+externe Library (Erweiterung von ElementTree):
+
+- `lxml`
+
 ---
 
-# XML mit ElementTree: schreiben
+# XML mit ElementTree: erstellen
 
 ```py
 import xml.etree.ElementTree as et
 
 person = et.Element('person')
-name = et.SubElement(person, 'name').text = 'Adam'
-age = et.SubElement(person, 'age', unit='years').text = '40'
+name = et.SubElement(person, 'name')
+name.text = 'Adam'
+age = et.SubElement(person, 'age')
+age.text = '40'
+age.set("unit", "years")
+```
 
+---
+
+# XML mit ElementTree: speichern
+
+```py
+xmlbytestring: bytes = et.tostring(person, encoding='utf-8')
+with open("myfile.xml", mode="wb") as file:
+    file.write(xmlbytestring)
+
+# oder
+xmlstring: str = et.tostring(person, encoding='unicode')
+with open("myfile.xml", encoding="utf-8", mode="w") as file:
+    file.write(xmlstring)
+
+# oder
 tree = et.ElementTree(person)
-xmlstring: str = et.tostring(tree, encoding='unicode')
-xmlbytestring: bytes = et.tostring(tree, encoding='utf-8')
+tree.write("myfile.xml", encoding="utf-8")
 ```
 
 ---
@@ -2169,6 +2348,7 @@ import xml.etree.ElementTree as et
 
 person = et.fromstring(xmlstring)
 for childnode in person:
+    print(childnode.tag)
     print(childnode.text)
     print(childnode.attrib)
 ```
@@ -2187,10 +2367,13 @@ Beispiel:
 ```py
 import re
 
-if re.search(r'[a-z][A-Z]!', 'cX!'):
-    print('match')
+match = re.search(r"[a-z][A-Z]", "abCdE")
+
+if match:
+    print("match")
+    print(match[0]) # bC
 else:
-    print('no match')
+    print("no match")
 ```
 
 ---
@@ -2205,12 +2388,19 @@ import re
 re.findall(r'https?://.+?\.com', website_content)
 ```
 
+???
+
+Aufgabe: finde alle URLs auf news.ycombinator.com
+
 ---
 
 # Einen Ausdruck und Unterausdrücke finden
 
 ```py
-re.search(r'\d?\d\.\d?\d\.\d\d\d\d', 'Heute ist der 23.10.1970!')
+re.search(
+    r'\d?\d\.\d?\d\.\d\d\d\d',
+    'Heute ist der 23.10.1970!'
+)
 ```
 
 ---
@@ -2222,17 +2412,17 @@ m = re.search(
     r'(\d?\d)\.(\d?\d)\.(\d\d\d\d)',
     'Heute ist der 23.1.1970!'
 )
-m.group(0) # 23.1.1970
-m.group(1) # 23
-m.group(2) # 1
-m.group(3) # 1970
+m[0] # 23.1.1970
+m[1] # 23
+m[2] # 1
+m[3] # 1970
 ```
 
 ---
 
 # Reguläre Ausdrücke
 
-- Aufgabe 4 (Lesbarkeitsanalyse)
+- Buch Aufgabe 4 (Lesbarkeitsanalyse)
 - Beispiel: Gleichungen erkennen und auslesen
 
 ???
@@ -2264,33 +2454,82 @@ siehe Buch
 
 # SMTP
 
-automatetheboringstuff.com
+https://automatetheboringstuff.com/chapter16/
 
 ```py
+# zur verdeckten Passworteingabe:
 import getpass
 ```
-
-???
-
-evtl automatetheboringstuff
-
-siehe Buch
 
 ---
 
 # HTTP
 
-- http.client.HTTPConnection (siehe Buch)
+- http.client.HTTP(S)Connection
 - urllib
 - requests
 
 ---
 
-# HTTP - Übungen
+# HTTP(S)Connection
 
-- Anzahl der Google-Suchergebnisse
-- Wetterdaten (26.9.4)
-- Web Scraping & BeautifulSoup: https://automatetheboringstuff.com/chapter11/
+low-level interface
+
+```py
+from http.client import HTTPSConnection
+
+connection = HTTPSConnection("www.google.com")
+connection.request("GET", "/")
+answer = connection.getresponse()
+content = answer.read()
+connection.close()
+print(content)
+```
+
+---
+
+# urllib
+
+in Standardlibrary
+
+```py
+import urllib
+
+content: bytes = urllib.request.urlopen(
+                    "https://www.google.com").read()
+```
+
+---
+
+# requests
+
+Externes Paket, installierbar via _pip_:
+
+```bash
+pip install requests
+```
+
+```py
+import requests
+
+content: str = requests.get("https://www.google.com").text
+```
+
+---
+
+# Web Scraping: Anzahl der Google-Suchergebnisse
+
+---
+
+# APIs: Wetterdaten
+
+https://automatetheboringstuff.com/chapter14/
+
+---
+
+# Web Scraping: xkcd-Downloader
+
+https://automatetheboringstuff.com/chapter11/
 
 ---
 class: center, middle
@@ -2305,25 +2544,87 @@ Kapitel 21, Kapitel 25
 
 ---
 
-# assert
+# logging
 
 ---
 
 # logging
 
-mergesort: 21.6.1
+```py
+import logging
+logging.basicConfig(
+    filename="sort.log",
+    level=logging.DEBUG,
+    filemode="w"
+)
+
+logging.debug("hello")
+```
+
+---
+
+# logging
+
+Beispiel: Sortieralgorithmus
+
+---
+
+# assert
 
 ---
 
 # doctests
 
-Kapitel 25.2
+---
+
+# doctests
+
+Codebeispiele und unittests in einem - innerhalb der docstrings
+
+---
+
+# doctests
+
+```py
+def add(a, b):
+    """Add two numbers.
+
+    >>> add(2, 3)
+    5
+    """
+```
+
+---
+
+# doctests ausführen
+
+```py
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+```
+
+---
+
+# doctests: lange Ausgaben
+
+```py
+"""
+>>> bubblesort(list(range(10))) #doctest: +NORMALIZE_WHITESPACE
+[0, 1, 2, 3, 4, 5,
+6, 7, 8, 9]
+>>> bubblesort(list(range(10))) #doctest: +ELLIPSIS
+[0, 1, 2, ..., 8, 9]
+"""
+```
 
 ---
 
 # Unittests
 
-- unittest
+Möglichkeiten
+
+- unittest (Standardlibrary)
 - pytest
 - nose
 
@@ -2331,15 +2632,42 @@ Kapitel 25.2
 
 # unittest
 
-Kapitel 25.5
+---
 
-???
-
-findet tests in Paketen
+# unittest
 
 test_tictactoe.py
 
+```py
+import unittest
+from tictactoe import has_won
+
+class HasWon(unittest.TestCase):
+    def test_has_won_first_row_x(self):
+        board = [["X", "X", "X"],
+                 [None, None, None],
+                 [None, None, None]]
+        w = has_won(board, "X")
+        self.assertTrue(w)
+```
+
+---
+
+# unittest
+
+Ausführen:
+
+```bash
+python -m unittest mymodule
+```
+
+oder
+
+```bash
 python -m unittest
+```
+
+(findet Tests im Ordner)
 
 ---
 
@@ -2356,7 +2684,7 @@ class: center, middle
 
 MyPy: Typechecker für Python, insbesondere sinnvoll für Python3
 
-mypy-lang.org
+https://mypy-lang.org
 
 ---
 
@@ -2405,228 +2733,9 @@ roman: Dict[int, str] = {1: 'I', 2: 'II', 3: 'III', 4: 'IV'}
 
 # Mypy - Dokumentation
 
-mypy.readthedocs.io
+https://mypy.readthedocs.io
 
 (auch für Python 2)
-
----
-class: center, middle
-
-# Iterators
-
----
-
-# Iterators
-
-Oberflächlich: Ein Iterator ist ein besonderes Objekt, über das wir mit `for o in my_iterator` iterieren können.
-
-Iterators können auf verschiedene Arten erzeugt werden.
-
----
-
-# Iterators
-
-Genauer Hintergrund: Ein Iterator ist ein besonderes Objekt, das eine `__next__`-Methode besitzt.
-
----
-
-# Iterators - Beispiel count
-
-```py
-from itertools import count
-
-for i in count():
-    print(i)
-```
-
----
-
-# Iterators - Beispiel count
-
-```py
-from itertools import count
-
-c = count()
-
-c.__next__()
-c.__next__()
-```
-
----
-
-# Iterators - Beispiel count
-
-```py
-from itertools import count
-
-c = count()
-
-next(c)
-next(c)
-```
-
----
-
-# Iterators - Beispiel repeat
-
-```py
-from itertools import repeat
-
-r = repeat('a', 5)
-
-next(r)
-...
-```
-
----
-
-# Iterators - Beispiel repeat
-
-Wenn ein Iterator "aufgebraucht" ist:
-
-`StopIteration`-Exception
-
----
-
-# Iterators erzeugen
-
-Möglichkeiten:
-
-- Funktionen aus `itertools`
-- Eigene Klasse mit `__next__` (und `__iter__`)
-- Generator-Expression
-- Funktion mit `yield`
-
----
-
-# itertools
-
-https://docs.python.org/3/library/itertools.html
-
----
-
-# Eigene Klasse
-
-Übungen:
-
-```py
-for i in random():
-    ...
-```
-
-oder
-
-```py
-for number in lotto():
-    print(number, end=" ")
-
-4 34 49 7 13 19
-```
-
----
-
-# Generator-Expression
-
-Sehr ähnlich zur List-Comprehension
-
-```py
-# list-comprehension
-mylist = [i*i for i in range(3)]
-
-# generator
-mygenerator = (i*i for i in range(3))
-```
-
----
-
-# Generator-Expression
-
-Unterschiede zur List-Comprehension
-
-- weniger Resourcenverbrauch (Speicher, ...)
-- Durchlauf nur 1x und nach der Reihe
-
----
-
-# yield
-
-Eine Funktion kann anstatt eines return-Statements ein yield-Statement enthalten und wird dann zum Generator
-
-```py
-# eigener count-generator
-def count():
-    i = 0
-    while True:
-        yield i
-        i += i
-```
-
----
-
-# Iterable und \_\_iter\_\_
-
-Iterable = Objekt, über das iteriert werden kann - definiert eine `__iter__`-Methode
-
-Beispiele: Listen, Iterators
-
----
-class: center, middle
-
-# Funktionen - Fortgeschritten
-
----
-
-# Lambdas
-
----
-
-# Reine Funktionen
-
----
-
-# Memoisation
-
-???
-
-Beispiel: fib
-
----
-
-# Decorators
-
-Decorator: Möglichkeit, eine Funktion nach deren Erstellung zu verändern
-
-Der Decorator ist eine Funktion, die eine Funktion als Parameter übernimmt und eine neue, veränderte Funktion zurückgibt
-
----
-
-# Decorators
-
-```py
-@cache
-def fib(n):
-    ...
-```
-
-äquivalent zu:
-
-```py
-def fib(n):
-    ...
-
-fib = cache(fib)
-```
-
----
-
-# Functools
-
-???
-
-partial
-
-from functools import partial
-open_utf8 = partial(open, encoding='UTF-8')
 
 ---
 class: center, middle
@@ -2812,6 +2921,225 @@ f.b = 3 # prints: "set propery 'b'"
 ---
 class: center, middle
 
+# Funktionen - Fortgeschritten
+
+---
+
+# Lambdas
+
+---
+
+# Reine Funktionen
+
+---
+
+# Memoisation
+
+???
+
+Beispiel: fib
+
+---
+
+# Decorators
+
+Decorator: Möglichkeit, eine Funktion nach deren Erstellung zu verändern
+
+Der Decorator ist eine Funktion, die eine Funktion als Parameter übernimmt und eine neue, veränderte Funktion zurückgibt
+
+---
+
+# Decorators
+
+```py
+@cache
+def fib(n):
+    ...
+```
+
+äquivalent zu:
+
+```py
+def fib(n):
+    ...
+
+fib = cache(fib)
+```
+
+---
+
+# Functools
+
+???
+
+partial
+
+from functools import partial
+open_utf8 = partial(open, encoding='UTF-8')
+
+---
+class: center, middle
+
+# Iterators
+
+---
+
+# Iterators
+
+Oberflächlich: Ein Iterator ist ein besonderes Objekt, über das wir mit `for o in my_iterator` iterieren können.
+
+Iterators können auf verschiedene Arten erzeugt werden.
+
+---
+
+# Iterators
+
+Genauer Hintergrund: Ein Iterator ist ein besonderes Objekt, das eine `__next__`-Methode besitzt.
+
+---
+
+# Iterators - Beispiel count
+
+```py
+from itertools import count
+
+for i in count():
+    print(i)
+```
+
+---
+
+# Iterators - Beispiel count
+
+```py
+from itertools import count
+
+c = count()
+
+c.__next__()
+c.__next__()
+```
+
+---
+
+# Iterators - Beispiel count
+
+```py
+from itertools import count
+
+c = count()
+
+next(c)
+next(c)
+```
+
+---
+
+# Iterators - Beispiel repeat
+
+```py
+from itertools import repeat
+
+r = repeat('a', 5)
+
+next(r)
+...
+```
+
+---
+
+# Iterators - Beispiel repeat
+
+Wenn ein Iterator "aufgebraucht" ist:
+
+`StopIteration`-Exception
+
+---
+
+# Iterators erzeugen
+
+Möglichkeiten:
+
+- Funktionen aus `itertools`
+- Eigene Klasse mit `__next__` (und `__iter__`)
+- Generator-Expression
+- Funktion mit `yield`
+
+---
+
+# itertools
+
+https://docs.python.org/3/library/itertools.html
+
+---
+
+# Eigene Klasse
+
+Übungen:
+
+```py
+for i in random():
+    ...
+```
+
+oder
+
+```py
+for number in roulette():
+    print(number, end=" ")
+
+4 0 29 7 13 19
+```
+
+---
+
+# Generator-Expression
+
+Sehr ähnlich zur List-Comprehension
+
+```py
+# list-comprehension
+mylist = [i*i for i in range(3)]
+
+# generator
+mygenerator = (i*i for i in range(3))
+```
+
+---
+
+# Generator-Expression
+
+Unterschiede zur List-Comprehension
+
+- weniger Resourcenverbrauch (Speicher, ...)
+- Durchlauf nur 1x und nach der Reihe
+
+---
+
+# yield
+
+Eine Funktion kann anstatt eines return-Statements ein yield-Statement enthalten und wird dann zum Generator
+
+```py
+# eigener count-generator
+def count():
+    i = 0
+    while True:
+        yield i
+        i += i
+```
+
+---
+
+# Iterable und \_\_iter\_\_
+
+Iterable = Objekt, über das iteriert werden kann - definiert eine `__iter__`-Methode
+
+Beispiele: Listen, Iterators
+
+---
+class: center, middle
+
 # sys, os
 
 ---
@@ -2866,7 +3194,7 @@ class: center, middle
 
 ---
 
-# Kurzer Einschub - lokalen Server mit Python betreiben
+# Kurzer Einschub - lokalen Dateiserver mit Python betreiben
 
 ```bash
 # py2
@@ -2886,23 +3214,33 @@ WSGI = Web Server Gateway Interface
 
 Standard, um ein Programm am Server auf HTTP-Anfragen antworten zu lassen
 
-Schnittstelle zwischen Server-Software (Apache, nginx, ...) und Python
+Schnittstelle zwischen Server-Software und Python
 
 ---
 
-# WSGI
+# WSGI-Software
 
-WSGI-Interface:
+server-software:
 
-Êinstiegspunkt ist eine Python-Funktion
+- gunicorn
+- uWSGI
+- mod_wsgi
+
+---
+
+# WSGI-Interface
+
+Einstiegspunkt ist eine Python-Funktion
 
 Die Funktion bekommt zwei Parameter übergeben: `environ` und `start_response`
 
+Die Anfrageparameter sind über `environ` abzufragen (zB URL, HTTP header, Formulardaten, ...)
+
+Der zweite Parameter ist eine Funktion, üblicherweise `start_response` genannt.
+
 ---
 
 # WSGI
-
-Die Anfrageparameter sind über `environ` abzufragen (zB URL, HTTP header, Formulardaten, ...)
 
 Zum starten der Antwort rufen wir `start_response(status, response_headers)` auf, zB:
 
@@ -2910,7 +3248,7 @@ Zum starten der Antwort rufen wir `start_response(status, response_headers)` auf
 start_response("200 OK", [("Content-Type", "text/plain")])
 ```
 
-Der Antwortkörper wird als ein Iterable von Bytes zurückgegeben, zB als Liste von Bytestrings.
+Der Antwortkörper wird als ein Iterable von Bytestrings zurückgegeben, zB als Liste von Bytestrings.
 
 ---
 
@@ -2924,6 +3262,8 @@ from app import application
 server = make_server('localhost', 8000, application)
 server.handle_request()
 ```
+
+Dieser Teil wird üblicherweise von Libraries wie gunicorn übernommen
 
 ---
 
@@ -2946,9 +3286,7 @@ def application(environ, start_response):
 
 # Das environ-dictionary
 
-Wir können es im debugger begutachten
-
-Beispiel:
+Wir können es im debugger begutachten, zB:
 
 ```py
 {
@@ -2984,11 +3322,11 @@ So lesen wir Parameter aus Formularen aus:
 from urllib.parse import parse_qs
 
 request_body_size = int(environ.get('CONTENT_LENGTH', '0'))
-
-request_body = environ["wsgi.input"].read(request_body_size).decode("utf-8")
+request_body = (environ["wsgi.input"]
+                .read(request_body_size)
+                .decode("utf-8"))
 
 parameters = parse_qs(request_body)
-
 first_name = parameters.get("first-name")[0]
 ```
 
@@ -3028,7 +3366,8 @@ Vorteil von Threading: einfacher, Variablen können direkt verändert werden
 
 # Threads
 
-Python schaltet wiederholt zwischen parallel laufenden Threads um, sodass diese scheinbar parallel laufen. In Wahrheit ist aber zu jedem Zeitpunkt nur ein Thread aktiv (Global Interpreter Lock - GIL)
+Python schaltet wiederholt zwischen parallel laufenden Threads um, sodass diese scheinbar parallel laufen.  
+In Wahrheit ist aber zu jedem Zeitpunkt nur ein Thread aktiv (Global Interpreter Lock - GIL)
 
 Zwei Threads können auf die gleichen Daten zugreifen
 
@@ -3434,6 +3773,63 @@ c.execute(
 
 - Authentifizierung (MD5)
 - Admin-Skript
+
+---
+class: center, middle
+
+# NumPy
+
+---
+
+# NumPy
+
+Library zur effizienten Datenverarbeitung
+
+Daten sind in mehrdimensionalen arrays gespeichert, die resourcenschonend umgesetzt sind
+
+???
+
+Erklären: Unterschied: Liste vs Array - warum array weniger resourcen
+
+---
+
+# NumPy
+
+NumPy Arrays vs Python Listen:
+
+Arrays sind im Hintergrund in C implementiert, die numerischen Einträge (z.B. Integer) sind keine Python-Objekte und damit resourcenschonender.
+
+---
+
+# NumPy
+
+NumPy Arrays vs Python Listen:
+
+```py
+list_a = [1, 2] # Python - Liste (mit Verweisen auf andere Integer)
+list_b = [3, 4] # Python - Liste
+
+# NumPy - Array - Daten sind hierin enthalten, ohne auf Python-Integer zu verweisen
+array_a = numpy.array(list_a)
+array_b = numpy.array(list_b)
+
+array_a + array_b # sehr schnell (da in C implementiert)
+```
+
+---
+
+# NumPy
+
+Kapitel 30
+
+- Rechnen mit Matrizen
+- Darstellung von Daten (matplotlib): Graphen, Histogramme
+
+Übungen:
+
+- 10 mio mal Würfeln (mit 10 Würfeln)
+- Gleichungslösung (Klassen, doctests, numpy)
+- Lagerbestand von Produkten (2d-array) & preisliste (1d-array); gesucht: warenwert pro lager
 
 ---
 
